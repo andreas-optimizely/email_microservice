@@ -1,3 +1,4 @@
 .env
 /resources
 .DS_Store
+/node_modules
