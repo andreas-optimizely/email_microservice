@@ -44,7 +44,7 @@ app.get('/send', (req,res) => {
     from: sender,
     to: email,
     subject: 'Welcome to the Gap',
-    html: '<html><a href="https://www.atticandbutton.us/#userid=' + email + '"><img src="http://cdn.optimizely.com/img/3546160213/e4aa2777a11542a782be2697e4ca5426.jpg"></a></html>'
+    html: '<html><a href="https://www.atticandbutton.us/?pid=6878261810#userid=' + email + '"><img src="http://cdn.optimizely.com/img/3546160213/e4aa2777a11542a782be2697e4ca5426.jpg"></a></html>'
   }
 
   mailer.messages().send(data, (err, body) => {
