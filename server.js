@@ -54,8 +54,8 @@ app.get('/send', (req,res) => {
 
 });
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+var server = http.createServer(app);
+var secureServer = https.createServer(credentials, app);
 
-httpServer.listen(8080);
-httpsServer.listen(8443);
+server.listen(8080);
+secureServer.listen(8443);
