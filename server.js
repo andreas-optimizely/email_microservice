@@ -42,8 +42,6 @@ app.get('/' , (req,res) => {
 app.get('/send', (req,res) => {
   let email = req.query.email;
 
-  let variationKey = optimizely.activate('email_subjects', email);
-
   let data = {
     from: sender,
     to: email,
