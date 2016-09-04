@@ -45,8 +45,8 @@ app.get('/send', (req,res) => {
   let data = {
     from: sender,
     to: email,
-    subject: 'Welcome to the Gap',
-    html: '<html><a href="https://abetterdemo.myshopify.com/#userid=' + email + '"><img src="http://cdn.optimizely.com/img/3546160213/e4aa2777a11542a782be2697e4ca5426.jpg"></a></html>'
+    subject: 'Welcome to Weight Watchers!',
+    html: '<html><a href="https://login.weightwatchers.com/classic/UI/Login?realm=US&service=ldapService&goto=https://cmx.weightwatchers.com&set-uuid=' + email + '"><img src="https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"></a></html>'
   }
 
   mailer.messages().send(data, (err, body) => {
