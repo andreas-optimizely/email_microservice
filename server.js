@@ -4,9 +4,9 @@ require('dotenv').config();
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
-var privateKey  = fs.readFileSync('ssl/server.key', 'utf8');
-var certificate = fs.readFileSync('ssl/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+//var privateKey  = fs.readFileSync('ssl/server.key', 'utf8');
+//var certificate = fs.readFileSync('ssl/server.crt', 'utf8');
+//var credentials = {key: privateKey, cert: certificate};
 
 const express = require('express'),
       mg = require('mailgun-js'),
@@ -58,8 +58,12 @@ app.get('/send', (req,res) => {
 
 });
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+//var httpServer = http.createServer(app);
+//var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(8080);
-httpsServer.listen(8443);
+//httpServer.listen(8080);
+//httpsServer.listen(8443);
+
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Running! GO CHECK LOCALHOST:3000");
+});
