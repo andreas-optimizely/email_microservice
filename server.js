@@ -56,6 +56,22 @@ app.get('/send', (req,res) => {
 
 });
 
+app.get('/send-best-buy', (req,res) => {
+  let email = req.query.email;
+
+  let data = {
+    from: sender,
+    to: email,
+    subject: 'Welcome to Best Buy!',
+    html: '<html><a href="http://www.bestbuy.com/#userid=' + email + '"><img src="https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"></a></html>'
+  }
+
+  mailer.messages().send(data, (err, body) => {
+    console.log(body ? body : err);
+    return body ? res.sendStatus(200) : res.sendStatus(500);
+  });
+
+});
 //var httpServer = http.createServer(app);
 //var httpsServer = https.createServer(credentials, app);
 
