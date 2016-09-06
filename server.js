@@ -63,7 +63,7 @@ app.get('/send-best-buy', (req,res) => {
     from: sender,
     to: email,
     subject: 'Welcome to Best Buy!',
-    html: '<html><a href="http://www.bestbuy.com/#userid=' + email + '"><img src="https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"></a></html>'
+    html: '<html><a href="http://www.bestbuy.com/#userid=' + email + '"><img src="https://okcnakl5g3.execute-api.us-west-2.amazonaws.com/prod/bestbuyImageRedirect?userid="' + email + '></a></html>'
   }
 
   mailer.messages().send(data, (err, body) => {
