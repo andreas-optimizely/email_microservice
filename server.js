@@ -17,7 +17,7 @@ const api_key = process.env.MAILGUN_API_KEY,
       domain = process.env.MAILGUN_DOMAIN,
       AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID,
       AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY,
-      sender = 'Optimizely <me@' + domain +'>';
+      sender = 'Best Buy <me@' + domain +'>';
 
 //console.log(datafile);
 
