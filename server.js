@@ -29,12 +29,6 @@ const api_key = process.env.MAILGUN_API_KEY,
 const mailer = mg({apiKey: api_key, domain: domain});
 const app = express();
 
-const images = {
-  "shirts": "http://cdn.optimizely.com/img/3546160213/e4aa2777a11542a782be2697e4ca5426.jpg",
-  "jeans": "http://cdn.optimizely.com/img/3546160213/e4aa2777a11542a782be2697e4ca5426.jpg"
-
-}
-
 app.get('/' , (req,res) => {
   res.send('Hello World');
 });
@@ -63,7 +57,7 @@ app.get('/send-best-buy', (req,res) => {
     from: sender,
     to: email,
     subject: 'Welcome to Best Buy!',
-    html: '<html><a href="http://www.bestbuy.com/#userid=' + email + '"><img src="https://blooming-meadow-23617.herokuapp.com/image-redirect"></a></html>'
+    html: '<html><a href="http://www.bestbuy.com/#userid=' + email + '"><img src="https://okcnakl5g3.execute-api.us-west-2.amazonaws.com/prod/bestbuyImageRedirect?userid=' + email + '"></a></html>'
   }
 
   mailer.messages().send(data, (err, body) => {
