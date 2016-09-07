@@ -72,6 +72,19 @@ app.get('/send-best-buy', (req,res) => {
   });
 
 });
+
+app.get('/image-redirect', (req, res) => {
+  let email = req.query.email;
+
+  let response = {
+    contenttype : "image/jpeg",
+    cachecontrol : "no-cache, max-age=0",
+    location : "https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"
+  };
+
+  res.send(response);
+
+});
 //var httpServer = http.createServer(app);
 //var httpsServer = https.createServer(credentials, app);
 
