@@ -33,13 +33,13 @@ app.get('/' , (req,res) => {
   res.send('Hello World');
 });
 
-app.get('/send', (req,res) => {
+app.get('/send-ww-welcome', (req,res) => {
   let email = req.query.email;
 
   let data = {
     from: sender,
     to: email,
-    subject: 'Welcome to Weight Watchers!',
+    subject: 'The first thing you need to know about starting Weight Watchers!',
     html: '<html><a href="https://login.weightwatchers.com/classic/UI/Login?realm=US&service=ldapService&goto=https://cmx.weightwatchers.com&set-uuid=' + email + '"><img src="https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"></a></html>'
   }
 
@@ -76,7 +76,8 @@ app.get('/image-redirect', (req, res) => {
     location : "https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"
   };
 
-  res.send(response);
+  res.writeHead(200, {'Content-Type': 'image/jpeg', 'Cache-Control': 'no-cache, max-age=0'});
+  res.end(response.location);
 
 });
 //var httpServer = http.createServer(app);
