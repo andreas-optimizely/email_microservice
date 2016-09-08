@@ -51,12 +51,13 @@ app.get('/send-ww-welcome', (req,res) => {
 
 app.get('/send-best-buy', (req,res) => {
   let email = req.query.email;
+
   let sender = 'Best Buy <me@' + domain +'>';
   let data = {
     from: sender,
     to: email,
     subject: 'Welcome to Best Buy!',
-    html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="http://www.bestbuy.com/#userid=' + email + '"><img style="width:100%; margin:0 auto;" src="https://d2jj17vqv9.execute-api.us-west-2.amazonaws.com/prod/customerProfileEmailImageRedirector?userid="'+ encodeURIComponent(email) +'"></a></div></html>'
+    html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="http://www.bestbuy.com/#userid=' + email + '"><img style="width:100%; margin:0 auto;" src="https://d2jj17vqv9.execute-api.us-west-2.amazonaws.com/prod/customerProfileEmailImageRedirector?userid="'+ email +'"></a></div></html>'
   }
 
   mailer.messages().send(data, (err, body) => {
