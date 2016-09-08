@@ -67,6 +67,24 @@ app.get('/send-best-buy', (req,res) => {
 
 });
 
+app.get('/send-booth-email', (req,res) => {
+  let email = req.query.email;
+
+  let sender = 'Optimizely <me@' + domain +'>';
+  let data = {
+    from: sender,
+    to: email,
+    subject: 'Thanks for stopping by Attic and Button!',
+    html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="http://www.atticandbutton.us/#userid=' + email + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/shirts.jpg"></a></div></html>'
+  }
+
+  mailer.messages().send(data, (err, body) => {
+    console.log(body ? body : err);
+    return body ? res.sendStatus(200) : res.sendStatus(500);
+  });
+
+});
+
 app.get('/image-redirect', (req, res) => {
   let email = req.query.email;
 
