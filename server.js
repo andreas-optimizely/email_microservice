@@ -75,6 +75,8 @@ app.get('/send-booth-email', (req,res) => {
               html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/shirts.jpg"></a></div></html>'
             }
   
+  console.log('Variation ', variation);
+  
   //Check if user is part of a variation
   if (variation === 'DEFAULT') {
     //Sending email for original version
