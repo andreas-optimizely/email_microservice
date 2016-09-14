@@ -1,9 +1,6 @@
 'use strict';
 
 require('dotenv').config();
-var fs = require('fs');
-var http = require('http');
-var https = require('https');
 
 const express = require('express'),
       mg = require('mailgun-js'),
@@ -13,11 +10,11 @@ const express = require('express'),
       defaultErrorHandler = require('optimizely-server-sdk/lib/plugins/error_handler'),
       defaultLogger = require('optimizely-server-sdk/lib/plugins/logger');
 
-
+/**
+  Initialize Keys and useful strings;
+*/
 const api_key = process.env.MAILGUN_API_KEY,
       domain = process.env.MAILGUN_DOMAIN,
-      AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID,
-      AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY,
       DATAFILE_URL = 'https://cdn.optimizely.com/json/7452801066.json';
 
 
@@ -39,7 +36,7 @@ function getDatafile(URL){
 */
 let optimizely;
 getDatafile().then((data) => {
-  console.log('OPTIMIZELY DEFINTED ', data);
+  console.log('Defining Optimmizely ', data);
   data.dimensions = [];
   return optimizely = optly.createInstance({
             datafile: data,
@@ -48,9 +45,15 @@ getDatafile().then((data) => {
           });
 });
 
+/**
+  Setup Mailer and Express App
+*/
 const mailer = mg({apiKey: api_key, domain: domain}),
       app = express();
 
+/**
+  ROUTES
+*/
 app.get('/' , (req,res) => {
   res.send('Hello World');
 });
@@ -90,6 +93,9 @@ app.get('/send-best-buy', (req,res) => {
 
 });
 
+/**
+  Endpoint to send email for Optimizely booth demo
+*/
 app.get('/send-booth-email', (req,res) => {
   let email = decodeURIComponent(req.query.email);
   console.log('Running booth email ', email);
@@ -123,6 +129,9 @@ app.get('/send-booth-email', (req,res) => {
   }
 });
 
+/**
+  Endpoint to record event!
+*/
 app.get('/opticon-redirect', (req, res) => {
   let email = req.query.email;
   console.log('running redirect for ', email);
@@ -133,19 +142,11 @@ app.get('/opticon-redirect', (req, res) => {
   res.redirect('http://www.atticandbutton.us/#userid=' + encodeURIComponent(email));
 });
 
-app.get('/image-redirect', (req, res) => {
-  let email = req.query.email;
-
-  let response = {
-    contenttype : "image/jpeg",
-    cachecontrol : "no-cache, max-age=0",
-    location : "https://s3-us-west-2.amazonaws.com/keynote-images/ww_email_welcome.jpg"
-  };
-
-  res.writeHead(200, {'Content-Type': 'image/jpeg', 'Cache-Control': 'no-cache, max-age=0'});
-  res.end(response.location);
-
-});
+/**
+  TODO: Image redirect would be DOPE
+  Endpoint should respond with redirect to image url &&
+  set header to image type
+*/
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("Up and running - check localhost:3000 for local dev");
