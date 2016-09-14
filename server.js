@@ -98,8 +98,6 @@ app.get('/send-booth-email', (req,res) => {
 */
 app.get('/opticon-redirect', (req, res) => {
   let email = decodeURIComponent(req.query.email);
-  
-  console.log('OPTLY ', optimizely);
 
   optimizely.track('EMAIL_OPENED', email);
   
