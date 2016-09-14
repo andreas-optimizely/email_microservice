@@ -14,7 +14,8 @@
     "express": "^4.14.0",
     "jsonfile": "^2.3.1",
     "mailgun-js": "^0.7.12",
-    "optimizely-server-sdk": "^0.1.2"
+    "optimizely-server-sdk": "^0.1.2",
+    "request": "^2.74.0"
   },
   "engines": {
     "node": "4.4.5"
