@@ -130,7 +130,7 @@ app.get('/opticon-redirect', (req, res) => {
   optimizely.track('EMAIL_OPENED', email);
   console.log('Tracked Optly event');
 
-  res.redirect('http://www.atticandbutton.us/#userid=' + email);
+  res.redirect('http://www.atticandbutton.us/#userid=' + encodeURIComponent(email));
 });
 
 app.get('/image-redirect', (req, res) => {
