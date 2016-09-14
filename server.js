@@ -9,7 +9,10 @@ const express = require('express'),
       mg = require('mailgun-js'),
       AWS = require('aws-sdk'),
       optly = require('optimizely-server-sdk'),
-      request = require('request');
+      request = require('request'),
+      defaultErrorHandler = require('optimizely-server-sdk/lib/plugins/error_handler'),
+      defaultLogger = require('optimizely-server-sdk/lib/plugins/logger');
+
 
 const api_key = process.env.MAILGUN_API_KEY,
       domain = process.env.MAILGUN_DOMAIN,
@@ -17,8 +20,6 @@ const api_key = process.env.MAILGUN_API_KEY,
       AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY,
       DATAFILE_URL = 'https://cdn.optimizely.com/json/7452801066.json';
 
-var defaultErrorHandler = require('optimizely-server-sdk/lib/plugins/error_handler');
-var defaultLogger = require('optimizely-server-sdk/lib/plugins/logger');
 
 function getDatafile(URL){
   return new Promise((resolve, reject) => {
@@ -102,7 +103,7 @@ app.get('/send-booth-email', (req,res) => {
     from: sender,
     to: email,
     subject: 'Thanks for stopping by Optimizely\'s Attic and Button!',
-    html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="http://localhost:3000/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/shirts.jpg"></a></div></html>'
+    html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/shirts.jpg"></a></div></html>'
   }
   
   //Check if user is part of a variation
