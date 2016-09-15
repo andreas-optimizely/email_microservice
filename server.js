@@ -85,8 +85,9 @@ app.get('/send-booth-email', (req,res) => {
       return body ? res.sendStatus(200) : res.sendStatus(500);
     });
   } else if (variation === 'VARIATION_ONE') {
-    data.subject = "How do you like this Optimizely Fullstack experiment?"
-    
+    data.subject = "How do you like this Optimizely Fullstack experiment?";
+    data.html = '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/accessories.jpg"></a></div></html>';
+
     //Sending email for Variation
     mailer.messages().send(data, (err, body) => {
       console.log(body ? body : err);
