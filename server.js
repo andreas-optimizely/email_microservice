@@ -72,7 +72,7 @@ app.get('/send-booth-email', (req,res) => {
               from: sender,
               to: email,
               subject: 'Thanks for stopping by Optimizely\'s Attic and Button!',
-              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/shirts.jpg"></a></div></html>'
+              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="http://cdn.optimizely.com/img/3546160213/315ab23024b14650839e6441d4922824.png"></a></div></html>'
             }
   
   console.log('Variation ', variation);
@@ -85,8 +85,8 @@ app.get('/send-booth-email', (req,res) => {
       return body ? res.sendStatus(200) : res.sendStatus(500);
     });
   } else if (variation === 'VARIATION_ONE') {
-    data.subject = "How do you like this Optimizely Fullstack experiment?";
-    data.html = '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="https://s3-us-west-2.amazonaws.com/optimizely-email-images/accessories.jpg"></a></div></html>';
+    data.subject = "How do you like this Optimizely Full Stack experiment?";
+    data.html = '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="http://cdn.optimizely.com/img/3546160213/99859ec12a8d4507a597539968e6c56d.png"></a></div></html>';
 
     //Sending email for Variation
     mailer.messages().send(data, (err, body) => {
