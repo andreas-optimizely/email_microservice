@@ -68,11 +68,12 @@ app.get('/send-booth-email', (req,res) => {
   let email = decodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
       variation = optimizely.activate('EMAIL_EXPERIMENT', email),
+      image = 'https://s3-us-west-2.amazonaws.com/ab-email-images/ab-original.png',
       data = {
               from: sender,
               to: email,
               subject: 'Thanks for stopping by Optimizely\'s Attic and Button!',
-              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="http://cdn.optimizely.com/img/3546160213/315ab23024b14650839e6441d4922824.png"></a></div></html>'
+              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
             }
   
   console.log('Variation ', variation);
