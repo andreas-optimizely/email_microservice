@@ -108,7 +108,7 @@ app.get('/westfield-email', (req, res) => {
               from: sender,
               to: email,
               subject: 'Welcome to your Westfield account',
-              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
+              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.westfield.com/sanfrancisco/#userid=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
             };
   mailer.messages().send(data, (err, body) => {
     console.log(body ? body : err);
