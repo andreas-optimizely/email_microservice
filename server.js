@@ -7,7 +7,8 @@ const express = require('express'),
       optly = require('optimizely-server-sdk'),
       request = require('request'),
       defaultErrorHandler = require('optimizely-server-sdk/lib/plugins/error_handler'),
-      defaultLogger = require('optimizely-server-sdk/lib/plugins/logger');
+      defaultLogger = require('optimizely-server-sdk/lib/plugins/logger'),
+      path = require('path');
 
 /**
   Initialize Keys and useful strings;
@@ -15,7 +16,9 @@ const express = require('express'),
 const api_key = process.env.MAILGUN_API_KEY,
       domain = process.env.MAILGUN_DOMAIN,
       PROJECT_ID = process.env.OPTLY_PROJECT_ID,
-      DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`;
+      DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`,
+      emails = path.join(__dirname, "emails");
+
 
 /**
   Helper function to asynchronously pull down datafile from CDN
@@ -97,12 +100,28 @@ app.get('/send-booth-email', (req,res) => {
   }
 });
 
+app.get('/westfield-email', (req, res) => {
+  let email = decodeURIComponent(req.query.email),
+      sender = 'Westfield <me@' + domain +'>',
+      image = 'https://s3-us-west-2.amazonaws.com/ab-email-images/ab-original.png',
+      data = {
+              from: sender,
+              to: email,
+              subject: 'Welcome to your Westfield account',
+              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
+            };
+  mailer.messages().send(data, (err, body) => {
+    console.log(body ? body : err);
+    return body ? res.sendStatus(200) : res.sendStatus(500);
+  });
+
+});
 /**
   Endpoint to record event!
 */
 app.get('/opticon-redirect', (req, res) => {
   let email = decodeURIComponent(req.query.email);
-
+  
   optimizely.track('EMAIL_OPENED', email);
   
   res.redirect('http://www.atticandbutton.us/#userid=' + encodeURIComponent(email));
