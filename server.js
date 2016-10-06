@@ -103,7 +103,7 @@ app.get('/send-booth-email', (req,res) => {
 app.get('/westfield-email', (req, res) => {
   let email = decodeURIComponent(req.query.email),
       sender = 'Westfield <me@' + domain +'>',
-      image = 'https://s3-us-west-2.amazonaws.com/ab-email-images/ab-original.png',
+      image = 'https://s3-us-west-2.amazonaws.com/demo-email-images/lululemon.png',
       data = {
               from: sender,
               to: email,
