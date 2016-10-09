@@ -177,7 +177,7 @@ app.get('/img-redirect', (req,res) => {
       } else {
         console.log('Favorite category', data.Item.value);
         response.location = "https://s3-us-west-2.amazonaws.com/demo-email-images/" + data.Item.value + ".png";
-        return res.redirect(301, response);
+        return res.redirect(301, response.location);
       }
     });
 });
