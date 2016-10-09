@@ -116,14 +116,31 @@ app.get('/westfield-email', (req, res) => {
   });
 
 });
+
+app.get('/img-redirect', (req,res) => {
+  var response = {
+    contenttype : "image/jpeg",
+    cachecontrol : "no-cache, max-age=0",
+    location : "https://s3-us-west-2.amazonaws.com/bbuy-email-images/bb_default_email.jpg"
+  };
+
+  var options = {
+    headers: {
+      'x-timestamp': Date.now(),
+      'x-sent': true,
+      contenttype : "image/jpeg",
+      cachecontrol : "no-cache, max-age=0"
+    }
+  };
+
+  res.redirect(301, response.location);
+})
 /**
   Endpoint to record event!
 */
 app.get('/opticon-redirect', (req, res) => {
   let email = decodeURIComponent(req.query.email);
-  
   optimizely.track('EMAIL_OPENED', email);
-  
   res.redirect('http://www.atticandbutton.us/#userid=' + encodeURIComponent(email));
 });
 
