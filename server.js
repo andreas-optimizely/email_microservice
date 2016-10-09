@@ -6,6 +6,7 @@ const express = require('express'),
       mg = require('mailgun-js'),
       optly = require('optimizely-server-sdk'),
       request = require('request'),
+      AWS = require('aws-sdk'),
       defaultErrorHandler = require('optimizely-server-sdk/lib/plugins/error_handler'),
       defaultLogger = require('optimizely-server-sdk/lib/plugins/logger'),
       path = require('path');
@@ -16,6 +17,8 @@ const express = require('express'),
 const api_key = process.env.MAILGUN_API_KEY,
       domain = process.env.MAILGUN_DOMAIN,
       PROJECT_ID = process.env.OPTLY_PROJECT_ID,
+      AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID,
+      AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY,
       DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`,
       emails = path.join(__dirname, "emails");
 
@@ -55,6 +58,35 @@ getDatafile().then((data) => {
 */
 const mailer = mg({apiKey: api_key, domain: domain}),
       app = express();
+
+
+AWS.config.update({accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY});
+AWS.config.region = 'us-west-2';
+
+function getCategory(userid){
+  let docClient = new AWS.DynamoDB.DocumentClient(),
+      tableName = 'optimizely-profiles',
+      property = 'favorite_category',
+      params = {
+        TableName: tableName,
+        Key:{
+          "userid": userid,
+          "property": property
+        }
+      };
+
+  return new Promise((reject, resolve) => {
+    docClient.get(params, function(err, data) {
+      if (err) {
+        return reject(console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2)));
+      } else {
+        console.log('Favorite category', data.Item.value);
+        console.log('Length ', data.Item.value.length);
+        resolve(data.Item.value);
+      }
+    });
+  });
+}
 
 /***********
   ROUTES
@@ -103,7 +135,7 @@ app.get('/send-booth-email', (req,res) => {
 app.get('/westfield-email', (req, res) => {
   let email = decodeURIComponent(req.query.email),
       sender = 'Westfield <me@' + domain +'>',
-      image = 'https://s3-us-west-2.amazonaws.com/demo-email-images/lululemon.png',
+      image = 'https://blooming-meadow-23617.herokuapp.com/img-redirect',
       data = {
               from: sender,
               to: email,
@@ -118,23 +150,37 @@ app.get('/westfield-email', (req, res) => {
 });
 
 app.get('/img-redirect', (req,res) => {
-  var response = {
-    contenttype : "image/jpeg",
-    cachecontrol : "no-cache, max-age=0",
-    location : "https://s3-us-west-2.amazonaws.com/bbuy-email-images/bb_default_email.jpg"
-  };
+  let email = encodeURIComponent(req.query.email);
 
-  var options = {
-    headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true,
+  let docClient = new AWS.DynamoDB.DocumentClient(),
+      tableName = 'optimizely-profiles',
+      property = 'favorite_category',
+      params = {
+        TableName: tableName,
+        Key:{
+          "userid": email,
+          "property": property
+        }
+      };
+
+  let response = {
       contenttype : "image/jpeg",
-      cachecontrol : "no-cache, max-age=0"
-    }
-  };
+      cachecontrol : "no-cache, max-age=0",
+      location : "https://s3-us-west-2.amazonaws.com/demo-email-images/lululemon.jpg"
+    };
 
-  res.redirect(301, response.location);
-})
+  docClient.get(params, function(err, data) {
+      if (err) {
+        console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+        return res.redirect(301, response.location);
+      } else {
+        console.log('Favorite category', data.Item.value);
+        response.location = "https://s3-us-west-2.amazonaws.com/demo-email-images/" + data.Item.value + ".png";
+        return res.redirect(301, response);
+      }
+    });
+});
+
 /**
   Endpoint to record event!
 */
