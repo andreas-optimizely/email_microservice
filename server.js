@@ -134,8 +134,9 @@ app.get('/send-booth-email', (req,res) => {
 
 app.get('/westfield-email', (req, res) => {
   let email = decodeURIComponent(req.query.email),
+      userid = encodeURIComponent(req.query.email),
       sender = 'Westfield <me@' + domain +'>',
-      image = 'https://blooming-meadow-23617.herokuapp.com/img-redirect',
+      image = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + userid,
       data = {
               from: sender,
               to: email,
