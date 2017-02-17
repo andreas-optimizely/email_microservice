@@ -22,7 +22,6 @@ const api_key = process.env.MAILGUN_API_KEY,
       DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`,
       emails = path.join(__dirname, "emails");
 
-
 /**
   Helper function to asynchronously pull down datafile from CDN
 */
@@ -51,6 +50,8 @@ getDatafile().then((data) => {
             errorHandler: defaultErrorHandler,
             logger: defaultLogger.createLogger(),
           });
+}, (error)=>{
+  console.error("Error: ", error);
 });
 
 /**
@@ -99,20 +100,20 @@ app.get('/' , (req,res) => {
 /**
   Endpoint to send email for Optimizely booth demo
 */
-app.get('/send-booth-email', (req,res) => {
+app.get('/send-email', (req,res) => {
   let email = decodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
       variation = optimizely.activate('EMAIL_EXPERIMENT', email),
-      image = 'https://s3-us-west-2.amazonaws.com/ab-email-images/ab-original.png',
+      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + email,
       data = {
               from: sender,
               to: email,
-              subject: 'Thanks for stopping by Optimizely\'s Attic and Button!',
-              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
+              subject: 'Thanks for stopping by Attic and Button',
+              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
             }
   
   console.log('Variation ', variation);
-  
+
   //Check if user is part of a variation
   if (variation === 'DEFAULT') {
     //Sending email for original version
@@ -122,7 +123,6 @@ app.get('/send-booth-email', (req,res) => {
     });
   } else if (variation === 'VARIATION_ONE') {
     data.subject = "How do you like this Optimizely Full Stack experiment?";
-    data.html = '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/opticon-redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="http://cdn.optimizely.com/img/3546160213/99859ec12a8d4507a597539968e6c56d.png"></a></div></html>';
 
     //Sending email for Variation
     mailer.messages().send(data, (err, body) => {
@@ -132,26 +132,12 @@ app.get('/send-booth-email', (req,res) => {
   }
 });
 
-app.get('/westfield-email', (req, res) => {
-  let email = decodeURIComponent(req.query.email),
-      userid = encodeURIComponent(req.query.email),
-      sender = 'Westfield <me@' + domain +'>',
-      image = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + userid,
-      data = {
-              from: sender,
-              to: email,
-              subject: 'Welcome to your Westfield account',
-              html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.westfield.com/sanfrancisco/#userid=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + image +'"></a></div></html>'
-            };
-  mailer.messages().send(data, (err, body) => {
-    console.log(body ? body : err);
-    return body ? res.sendStatus(200) : res.sendStatus(500);
-  });
-
-});
-
+/*
+  Route to look up user profile and redirect to image
+*/
 app.get('/img-redirect', (req,res) => {
-  let email = encodeURIComponent(req.query.email);
+  let email = encodeURIComponent(req.query.email),
+      baseUrl = "https://s3-us-west-2.amazonaws.com/ab-email-images/";
 
   let docClient = new AWS.DynamoDB.DocumentClient(),
       tableName = 'optimizely-profiles',
@@ -167,8 +153,11 @@ app.get('/img-redirect', (req,res) => {
   let response = {
       contenttype : "image/jpeg",
       cachecontrol : "no-cache, max-age=0",
-      location : "https://s3-us-west-2.amazonaws.com/demo-email-images/lululemon.jpg"
+      location : baseUrl + "default.jpg"
     };
+
+  //Send email open conversion
+  optimizely.track('EMAIL_OPENED', email);
 
   docClient.get(params, function(err, data) {
       if (err) {
@@ -176,7 +165,7 @@ app.get('/img-redirect', (req,res) => {
         return res.redirect(301, response.location);
       } else {
         console.log('Favorite category', data.Item.value);
-        response.location = "https://s3-us-west-2.amazonaws.com/demo-email-images/" + data.Item.value + ".png";
+        response.location = baseUrl + data.Item.value + ".jpg";
         return res.redirect(301, response.location);
       }
     });
@@ -185,10 +174,10 @@ app.get('/img-redirect', (req,res) => {
 /**
   Endpoint to record event!
 */
-app.get('/opticon-redirect', (req, res) => {
+app.get('/redirect', (req, res) => {
   let email = decodeURIComponent(req.query.email);
   optimizely.track('EMAIL_OPENED', email);
-  res.redirect('http://www.atticandbutton.us/#userid=' + encodeURIComponent(email));
+  res.redirect('http://www.atticandbutton.com/#userid=' + encodeURIComponent(email));
 });
 
 /**
