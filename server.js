@@ -138,8 +138,8 @@ app.get('/send-disney', (req,res)=>{
       data = {
         from: sender,
         to: email,
-        subject: 'Thanks for stopping by Attic and Button',
-        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
+        subject: 'Hello!',
+        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + email + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
       };
   console.log('Sending email for ', email);
   mailer.messages().send(data, (err, body) => {
