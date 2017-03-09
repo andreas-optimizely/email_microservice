@@ -134,7 +134,7 @@ app.get('/send-email', (req,res) => {
 app.get('/send-disney', (req,res)=>{
   let email = decodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
-      imageRedirect = 'http://email-service.optinaut.us/img-redirect?' + email,
+      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + email,
       data = {
         from: sender,
         to: email,
