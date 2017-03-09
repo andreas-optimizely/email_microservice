@@ -43,7 +43,6 @@ function getDatafile(URL){
 */
 let optimizely;
 getDatafile().then((data) => {
-  console.log('Defining Optimmizely ', data);
   data.dimensions = [];
   return optimizely = optly.createInstance({
             datafile: data,
@@ -132,6 +131,22 @@ app.get('/send-email', (req,res) => {
   }
 });
 
+app.get('/send-disney', (req,res)=>{
+  let email = decodeURIComponent(req.query.email),
+      sender = 'Optimizely <me@' + domain +'>',
+      imageRedirect = 'http://2.bp.blogspot.com/-D9F8GNiT1yg/Uh-cUtD8p-I/AAAAAAAABY0/2ja3WYAkTcY/s1600/Disney-Mickey-Mouse-Characters-Wallpaper.jpg',
+      data = {
+        from: sender,
+        to: email,
+        subject: 'Thanks for stopping by Attic and Button',
+        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://blooming-meadow-23617.herokuapp.com/redirect?email=' + encodeURIComponent(req.query.email) + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
+      };
+  console.log('Sending email for ', email);
+  mailer.messages().send(data, (err, body) => {
+    console.log(body ? body : err);
+    return body ? res.sendStatus(200) : res.sendStatus(500);
+  });
+});
 /*
   Route to look up user profile and redirect to image
 */
