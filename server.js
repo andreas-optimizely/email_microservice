@@ -134,12 +134,12 @@ app.get('/send-email', (req,res) => {
 app.get('/send-disney', (req,res)=>{
   let email = decodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
-      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + email,
+      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + req.query.email,
       data = {
         from: sender,
         to: email,
         subject: 'Hello!',
-        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + email + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
+        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + req.query.email + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
       };
   console.log('Sending email for ', email);
   mailer.messages().send(data, (err, body) => {
@@ -151,7 +151,7 @@ app.get('/send-disney', (req,res)=>{
   Route to look up user profile and redirect to image
 */
 app.get('/img-redirect', (req,res) => {
-  let email = encodeURIComponent(req.query.email),
+  let email = req.query.email,
       baseUrl = "https://s3-us-west-2.amazonaws.com/disney-email/";
 
   let docClient = new AWS.DynamoDB.DocumentClient(),
