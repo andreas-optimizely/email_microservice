@@ -134,7 +134,7 @@ app.get('/send-email', (req,res) => {
 app.get('/send-disney', (req,res)=>{
   let email = decodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
-      imageRedirect = 'http://2.bp.blogspot.com/-D9F8GNiT1yg/Uh-cUtD8p-I/AAAAAAAABY0/2ja3WYAkTcY/s1600/Disney-Mickey-Mouse-Characters-Wallpaper.jpg',
+      imageRedirect = 'http://email-service.optinaut.us/img-redirect?' + email,
       data = {
         from: sender,
         to: email,
@@ -152,7 +152,7 @@ app.get('/send-disney', (req,res)=>{
 */
 app.get('/img-redirect', (req,res) => {
   let email = encodeURIComponent(req.query.email),
-      baseUrl = "https://s3-us-west-2.amazonaws.com/ab-email-images/";
+      baseUrl = "https://s3-us-west-2.amazonaws.com/disney-email/";
 
   let docClient = new AWS.DynamoDB.DocumentClient(),
       tableName = 'optimizely-profiles',
@@ -168,11 +168,8 @@ app.get('/img-redirect', (req,res) => {
   let response = {
       contenttype : "image/jpeg",
       cachecontrol : "no-cache, max-age=0",
-      location : baseUrl + "default.jpg"
+      location : baseUrl + "default"
     };
-
-  //Send email open conversion
-  optimizely.track('EMAIL_OPENED', email);
 
   docClient.get(params, function(err, data) {
       if (err) {
@@ -180,7 +177,7 @@ app.get('/img-redirect', (req,res) => {
         return res.redirect(301, response.location);
       } else {
         console.log('Favorite category', data.Item.value);
-        response.location = baseUrl + data.Item.value + ".jpg";
+        response.location = baseUrl + data.Item.value;
         return res.redirect(301, response.location);
       }
     });
