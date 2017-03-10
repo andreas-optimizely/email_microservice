@@ -171,6 +171,8 @@ app.get('/img-redirect', (req,res) => {
       location : baseUrl + "default"
     };
 
+  console.log('LOOKING UP IN DynamoDB');
+  
   docClient.get(params, function(err, data) {
       if (err) {
         console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
