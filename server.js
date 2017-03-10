@@ -133,16 +133,17 @@ app.get('/send-email', (req,res) => {
 
 app.get('/send-disney', (req,res)=>{
   let email = decodeURIComponent(req.query.email),
+      encodedEmail = encodeURIComponent(req.query.email),
       sender = 'Optimizely <me@' + domain +'>',
-      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + req.query.email,
+      imageRedirect = 'https://blooming-meadow-23617.herokuapp.com/img-redirect?email=' + encodedEmail,
       data = {
         from: sender,
         to: email,
         subject: 'Hello!',
-        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + req.query.email + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
+        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
       };
   console.log('Sending email for ', email);
-  
+  console.log(imageRedirect);
   console.log(req.query.email);
 
   mailer.messages().send(data, (err, body) => {
