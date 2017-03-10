@@ -142,6 +142,9 @@ app.get('/send-disney', (req,res)=>{
         html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + req.query.email + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
       };
   console.log('Sending email for ', email);
+  
+  console.log(req.query.email);
+
   mailer.messages().send(data, (err, body) => {
     console.log(body ? body : err);
     return body ? res.sendStatus(200) : res.sendStatus(500);
@@ -171,8 +174,8 @@ app.get('/img-redirect', (req,res) => {
       location : baseUrl + "default"
     };
 
-  console.log('LOOKING UP IN DynamoDB');
-  
+  console.log('LOOKING UP', email, ' IN DynamoDB');
+
   docClient.get(params, function(err, data) {
       if (err) {
         console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
