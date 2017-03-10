@@ -155,7 +155,7 @@ app.get('/send-disney', (req,res)=>{
   Route to look up user profile and redirect to image
 */
 app.get('/img-redirect', (req,res) => {
-  let email = req.query.email,
+  let email = encodeURIComponent(req.query.email),
       baseUrl = "https://s3-us-west-2.amazonaws.com/disney-email/";
 
   let docClient = new AWS.DynamoDB.DocumentClient(),
