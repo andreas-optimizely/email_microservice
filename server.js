@@ -140,7 +140,7 @@ app.get('/send-disney', (req,res)=>{
         from: sender,
         to: email,
         subject: 'A magical experience just for you',
-        html: '<html><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></html>'
+        html: '<html><tbody><tr> <td colspan="2" valign="top" style="padding:7px 40px 7px 40px" align="left"> <img border="0" style="border:0;margin:0px;padding:0px;display:block;width:121px;height:31px" src="https://ci6.googleusercontent.com/proxy/L8bjCUazzbGma-wVIiTGAJP4vLF66PlkUUF-djjn4e8trgGigTmL6Kbj4J-xnxaV_eIiFu0SeicrB2UO5Gv_QtVNaxnrU-whyRGvBERQGz-7XzlqSlXzUsgkreiOYPd7DovbHBYfC2HcwHEbF4eJpITdwpUjBGK670F-SXh_r6TYS-IpgjI4GQ39Cvmhy3NyP3T4aC4=s0-d-e1-ft#https://secure.cdn1.wdpromedia.com/media/pep/live/media/modules/email/img/content/42dc7e4824dbb875a9847d786bbb6843-dlr-logo.jpg" alt="Disneyland Resort" width="121" height="31" class="CToWUd"> </td> </tr><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></tbody></html>'
       };
   console.log('Sending email for ', email);
   console.log(imageRedirect);
