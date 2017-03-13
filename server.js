@@ -139,8 +139,8 @@ app.get('/send-disney', (req,res)=>{
       data = {
         from: sender,
         to: email,
-        subject: 'A magical experience just for you',
-        html: '<html><tbody><tr> <td colspan="2" valign="top" style="padding:7px 40px 7px 40px" align="left"> <img border="0" style="border:0;margin:0px;padding:0px;display:block;width:121px;height:31px" src="https://ci6.googleusercontent.com/proxy/L8bjCUazzbGma-wVIiTGAJP4vLF66PlkUUF-djjn4e8trgGigTmL6Kbj4J-xnxaV_eIiFu0SeicrB2UO5Gv_QtVNaxnrU-whyRGvBERQGz-7XzlqSlXzUsgkreiOYPd7DovbHBYfC2HcwHEbF4eJpITdwpUjBGK670F-SXh_r6TYS-IpgjI4GQ39Cvmhy3NyP3T4aC4=s0-d-e1-ft#https://secure.cdn1.wdpromedia.com/media/pep/live/media/modules/email/img/content/42dc7e4824dbb875a9847d786bbb6843-dlr-logo.jpg" alt="Disneyland Resort" width="121" height="31" class="CToWUd"> </td> </tr><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></tbody></html>'
+        subject: 'A magical experience awaits you',
+        html: '<html><tbody><tr> <td colspan="2" valign="top" style="padding:7px 40px 7px 40px" align="left" class="gmail_msg"> <img border="0" style="border:0;margin:0px;padding:0px;display:block;width:160px;height:33px" src="https://ci5.googleusercontent.com/proxy/dZG9mI9E7z_B44F2Vhc8mnsvxU96HVHY6_U9cnyHY0OD8InbQsxi83FSHmQ74WGnHHFbS6XA4V8pTspPSEd9P1JYxjh3tm7vcotrzpQ31cXXc81MhU7q3DoseD4n5f2byYystGkGcbs6vTpvGkA5OTh-0QN-MH5_26QaWtpXJFf19wy1dR-k4VGsWHZTp246mH_au3nodyGZXSw59hME-UNGZ54q5PPd=s0-d-e1-ft#https://secure.cdn1.wdpromedia.com/media/pep/live/media/site/img/style/85186ce6dfeaf6c95a0ae08cb18f91d6-PEPCOM_Orange_Cart_Print_Out_WDW_Logo.png" alt="DisneyWorld" width="160" height="33" class="gmail_msg"> </td> </tr><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></tbody></html>'
       };
   console.log('Sending email for ', email);
   console.log(imageRedirect);
