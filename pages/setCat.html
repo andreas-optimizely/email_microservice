@@ -14,10 +14,13 @@
   </div>
   <script type="text/javascript">
     var user = "chewbacca.d33%40gmail.com";
+    window.optlyGlobals.setCookie('optimizelyPPID', user, 30, '.rocketshyp.us');
+
     $('#one').on('click',function(e){
       e.preventDefault();
       window.optlyGlobals.setCustomerProfileProperty('favorite_category','parkone');
     });
+
     $('#two').on('click',function(e){
       e.preventDefault();
       window.optlyGlobals.setCustomerProfileProperty('favorite_category','parktwo');
