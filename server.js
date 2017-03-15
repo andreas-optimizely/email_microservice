@@ -20,6 +20,7 @@ const api_key = process.env.MAILGUN_API_KEY,
       AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID,
       AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY,
       DATAFILE_URL = `https://cdn.optimizely.com/json/${PROJECT_ID}.json`,
+      pages = path.join(__dirname, "pages"),
       emails = path.join(__dirname, "emails");
 
 /**
@@ -139,7 +140,7 @@ app.get('/send-disney', (req,res)=>{
       data = {
         from: sender,
         to: email,
-        subject: 'A magical experience awaits you',
+        subject: 'Keep the magic alive outside of the parks',
         html: '<html><tbody><tr> <td colspan="2" valign="top" style="padding:7px 40px 7px 40px" align="left" class="gmail_msg"> <img border="0" style="border:0;margin:0px;padding:0px;display:block;width:160px;height:33px" src="https://ci5.googleusercontent.com/proxy/dZG9mI9E7z_B44F2Vhc8mnsvxU96HVHY6_U9cnyHY0OD8InbQsxi83FSHmQ74WGnHHFbS6XA4V8pTspPSEd9P1JYxjh3tm7vcotrzpQ31cXXc81MhU7q3DoseD4n5f2byYystGkGcbs6vTpvGkA5OTh-0QN-MH5_26QaWtpXJFf19wy1dR-k4VGsWHZTp246mH_au3nodyGZXSw59hME-UNGZ54q5PPd=s0-d-e1-ft#https://secure.cdn1.wdpromedia.com/media/pep/live/media/site/img/style/85186ce6dfeaf6c95a0ae08cb18f91d6-PEPCOM_Orange_Cart_Print_Out_WDW_Logo.png" alt="DisneyWorld" width="160" height="33" class="gmail_msg"> </td> </tr><div align="center" style="max-width:580px; margin:0 auto;"><a href="https://www.disneystore.com/#userid=' + encodedEmail + '"><img style="width:100%; margin:0 auto;" src="' + imageRedirect +'"></a></div></tbody></html>'
       };
   console.log('Sending email for ', email);
@@ -151,6 +152,14 @@ app.get('/send-disney', (req,res)=>{
     return body ? res.sendStatus(200) : res.sendStatus(500);
   });
 });
+
+app.get('/set',(req,res)=>{
+  var page = path.join(pages, "setCat.html");
+
+  res.sendFile(page)
+
+});
+
 /*
   Route to look up user profile and redirect to image
 */

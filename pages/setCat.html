@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.optimizely.com/js/8287708000.js"></script>
+</head>
+<body>
+  <h1>Hello reset fave category</h1>
+  <div>
+    <button id="one">Park One</button>    
+  </div><br>
+  <div>
+    <button id="two">Park Two</button>  
+  </div>
+  <script type="text/javascript">
+    var user = "chewbacca.d33%40gmail.com";
+    $('#one').on('click',function(e){
+      e.preventDefault();
+      window.optlyGlobals.setCustomerProfileProperty('favorite_category','parkone');
+    });
+    $('#two').on('click',function(e){
+      e.preventDefault();
+      window.optlyGlobals.setCustomerProfileProperty('favorite_category','parktwo');
+    });
+  </script>
+</body>
+</html>
