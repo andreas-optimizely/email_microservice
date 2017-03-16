@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdn.optimizely.com/js/8287708000.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 </head>
 <body>
-  <h1>Hello reset fave category!</h1>
-  <div>
-    <button id="one">Park One</button>    
-  </div><br>
-  <div>
-    <button id="two">Park Two</button>  
+  <div class="container">
+    <h1>Hello reset fave category!</h1>
+    <h2 id="cat"></h2>
+    <div class="row">
+      <div class="col-xs-12">
+        <button id="one" class="btn btn-default">Park One</button>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-xs-12">
+        <button id="two" class="btn btn-default">Park Two</button>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-xs-12">
+        <button id="sw" class="btn btn-default">Star Wars</button>
+      </div>
+    </div>  
   </div>
+  
   <script type="text/javascript">
     var user = "chewbacca.d33%40gmail.com";
 
@@ -20,11 +36,30 @@
     $('#one').on('click',function(e){
       e.preventDefault();
       window.optlyGlobals.setCustomerProfileProperty('favorite_category','parkone');
+      location.href = "/set"
     });
 
     $('#two').on('click',function(e){
       e.preventDefault();
       window.optlyGlobals.setCustomerProfileProperty('favorite_category','parktwo');
+      location.href = "/set"
+    });
+
+    $('#sw').on('click',function(e){
+      e.preventDefault();
+      window.optlyGlobals.setCustomerProfileProperty('favorite_category','starwars');
+      location.href = "/set"
+    });
+
+        $('#two').on('click',function(e){
+      e.preventDefault();
+      window.optlyGlobals.setCustomerProfileProperty('favorite_category','parktwo');
+      location.href = "/set"
+    });
+
+    window.optlyGlobals.getCustomerProfileProperty("favorite_category", function(propertyValue) {
+        $('#cat').text(propertyValue);
+        console.log('CALLBACK');
     });
   </script>
 </body>
