@@ -11,6 +11,12 @@
   <div class="container">
     <h1>Hello reset fave category!</h1>
     <h2 id="cat"></h2>
+      <div class="row">
+        <div class="col-xs-12">
+          <button id="send" class="btn btn-default">Send Email</button>
+        </div>
+      </div><br>
+
     <div class="row">
       <div class="col-xs-12">
         <button id="one" class="btn btn-default">Park One</button>
@@ -51,10 +57,9 @@
       location.href = "/set"
     });
 
-        $('#two').on('click',function(e){
+    $('#send').on('click',function(e){
       e.preventDefault();
-      window.optlyGlobals.setCustomerProfileProperty('favorite_category','parktwo');
-      location.href = "/set"
+      $.get('https://blooming-meadow-23617.herokuapp.com/send-disney?email=chewbacca.d33%40gmail.com')
     });
 
     window.optlyGlobals.getCustomerProfileProperty("favorite_category", function(propertyValue) {
